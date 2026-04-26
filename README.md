@@ -2,7 +2,7 @@
 
 A premium, AI-powered team composition generator for Genshin Impact. Build perfectly synergistic teams based on your personal character roster using state-of-the-art AI.
 
-![Banner](https://i.redd.it/78et8cn2chrd1.jpeg)
+![Banner](https://assetsio.gnwcdn.com/Genshin-Impact-4.0-release-date%2C-4.0-Banner-and-event-details-cover.jpg?width=690&quality=85&format=jpg&dpr=3&auto=webp)
 
 ## 🚀 Features
 

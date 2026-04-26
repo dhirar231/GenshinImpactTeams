@@ -6,7 +6,7 @@ A premium, AI-powered team composition generator for Genshin Impact. Build perfe
 
 ## 🚀 Features
 
-- **智能 Roster Management**: Easily select and track the characters you own. Your roster is saved locally for persistent use.
+- **Roster Management**: Easily select and track the characters you own. Your roster is saved locally for persistent use.
 - **UID Sync**: Automatically fetch your showcase characters from your in-game profile using your UID (via Enka.Network API).
 - **AI-Powered Team Generation**: Consult the "AI Oracle" to generate meta-valid, synergistic teams focused on any character of your choice.
 - **Triple-Layer AI Cascade**:

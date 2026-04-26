@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <script>
+        fetch('https://api.ambr.top/v2/en/avatar')
+            .then(res => res.json())
+            .then(data => {
+                const firstChar = Object.values(data.data.items)[0];
+                document.body.innerHTML = `<pre id="out">${JSON.stringify(firstChar, null, 2)}</pre>`;
+            });
+    </script>
+</body>
+</html>

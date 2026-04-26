@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genshin Impact Team Generator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teyvat: {
+                            dark: '#0f172a',
+                            card: 'rgba(30, 41, 59, 0.4)',
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            accent: '#38bdf8',
+                            anemo: '#74c0aa',
+                            geo: '#e9a11b',
+                            electro: '#bc7acc',
+                            dendro: '#9ec13f',
+                            hydro: '#3cafff',
+                            pyro: '#f36d5e',
+                            cryo: '#90d7e7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="bg-teyvat-dark text-white min-h-screen font-sans bg-fixed bg-center bg-cover" style="background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop');">
+    
+    <nav class="glass-nav sticky top-0 z-50 px-6 py-4 border-b border-teyvat-border">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-star text-teyvat-accent text-2xl"></i>
+                <h1 class="text-2xl font-bold tracking-wide">Genshin Planner</h1>
+            </div>
+            <div class="flex space-x-2 bg-slate-800/50 p-1 rounded-xl backdrop-blur-sm border border-slate-700/50">
+                <button id="tab-roster" class="nav-btn active px-5 py-2 rounded-lg font-medium transition-all duration-300 flex items-center shadow-sm">
+                    <i class="fa-solid fa-users mr-2"></i>My Roster
+                </button>
+                <button id="tab-generator" class="nav-btn px-5 py-2 rounded-lg font-medium transition-all duration-300 flex items-center">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2 text-rose-400"></i>Team Generator
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Roster Section -->
+        <section id="roster-section" class="tab-pane active fade-in">
+            <div class="glass-card rounded-2xl p-6 border border-teyvat-border backdrop-blur-md">
+                
+                <!-- UID Sync Bar -->
+                <div class="mb-8 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 flex flex-col md:flex-row items-center gap-4 justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-200"><i class="fa-solid fa-cloud-arrow-down mr-2 text-teyvat-accent"></i>Sync from Game</h3>
+                        <p class="text-xs text-gray-400 mt-1 max-w-sm">Enter your UID to automatically fetch the 8 characters on your in-game showcase. Make sure "Show Character Details" is enabled in Genshin Impact.</p>
+                    </div>
+                    <div class="flex w-full md:w-auto gap-2">
+                        <input type="text" id="uid-input" placeholder="Enter 9-digit UID" class="w-full md:w-48 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white text-sm focus:outline-none focus:border-teyvat-accent transition-colors">
+                        <button id="fetch-uid-btn" class="bg-teyvat-accent/20 border border-teyvat-accent/50 text-teyvat-accent hover:bg-teyvat-accent hover:text-white px-4 py-2 rounded-lg font-bold text-sm transition-all whitespace-nowrap">
+                            Fetch
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Character Roster</h2>
+                        <p class="text-gray-400 text-sm">Select the characters you currently own. This applies globally and saves securely on your device.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 element-filters p-2 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                        <!-- Element filters will be populated by JS -->
+                    </div>
+                </div>
+                
+                <div id="character-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                    <!-- Character cards populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Generator Section -->
+        <section id="generator-section" class="tab-pane hidden fade-in">
+            <div class="glass-card rounded-2xl p-6 border border-teyvat-border backdrop-blur-md mb-8">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center border border-rose-500/30">
+                        <i class="fa-solid fa-crosshairs text-rose-400"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">Target Character</h2>
+                </div>
+                <p class="text-gray-400 text-sm mb-6 ml-13">Select a character you want to build a team around, and we'll suggest valid compositions.</p>
+                
+                <div class="w-full md:w-96 ml-0 md:ml-13">
+                    <button id="open-target-selector-btn" class="w-full bg-slate-800/80 border border-slate-600 text-white rounded-xl px-5 py-4 text-left font-semibold shadow-inner transition-colors hover:bg-slate-700/80 flex items-center justify-between">
+                        <span id="target-btn-text">Select Character...</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Hidden Target Info Card -->
+                    <div id="target-info-card" class="mt-4 hidden glass-card rounded-xl p-4 flex items-center justify-between border border-teyvat-accent/30 shadow-[0_0_15px_rgba(56,189,248,0.15)] relative overflow-hidden cursor-pointer hover:bg-slate-700/80 transition-colors" title="Click to change character">
+                        <div class="flex items-center gap-4 z-10 w-full relative">
+                            <img id="target-info-img" src="" class="w-16 h-16 object-cover rounded-lg border border-white/20">
+                            <div class="flex-1">
+                                <h3 id="target-info-name" class="text-xl font-bold text-white leading-tight"></h3>
+                                <p class="text-xs text-teyvat-accent font-medium mt-1 uppercase tracking-wider">Active Target</p>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-teyvat-accent/10 to-transparent pointer-events-none"></div>
+                    </div>
+                </div>
+                
+                <!-- Action Button -->
+                <button id="generate-ai-teams-btn" class="mt-6 ml-0 md:ml-13 hidden bg-gradient-to-r from-purple-500 to-teyvat-accent hover:from-purple-400 hover:to-sky-400 text-white rounded-xl px-8 py-3 font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all transform hover:-translate-y-1">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> ✨ Ask AI for Teams ✨
+                </button>
+            </div>
+
+            <div id="teams-container" class="space-y-6">
+                <!-- Teams will be displayed here -->
+                <div class="text-center py-20 text-gray-500 glass-card rounded-2xl border border-teyvat-border border-dashed">
+                    <div class="relative inline-block mb-6">
+                        <i class="fa-solid fa-users-viewfinder text-6xl opacity-30"></i>
+                        <i class="fa-solid fa-sparkles absolute -top-2 -right-4 text-2xl text-yellow-500 opacity-50 animate-pulse"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-300 mb-2">Awaiting Selection</h3>
+                    <p>Select a target character above to discover optimal teams from your roster.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Target Selector Modal -->
+    <div id="target-modal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-md items-center justify-center p-4 fade-in">
+        <div class="bg-teyvat-dark/95 border border-teyvat-border w-full max-w-5xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col">
+            <div class="p-6 border-b border-teyvat-border flex justify-between items-center bg-slate-800/50">
+                <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-crosshairs text-rose-400 mr-2"></i>Select Target Character</h2>
+                <button id="close-modal-btn" class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-gray-400 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <!-- Modal search -->
+            <div class="p-4 border-b border-white/10 bg-slate-800/30">
+                 <input type="text" id="target-search-input" placeholder="Search characters by name..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-teyvat-accent shadow-inner">
+            </div>
+            <!-- Modal Grid -->
+            <div class="p-6 overflow-y-auto flex-1">
+                <div id="target-modal-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                    <!-- Character cards populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="./js/avatarMap.js"></script>
+    <script src="./js/charactersData.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
